@@ -305,6 +305,15 @@
       white-space: nowrap;
     }
 
+    .price-label {
+      display: block;
+      margin-bottom: 2px;
+      font-size: .68rem;
+      font-weight: 650;
+      letter-spacing: .02em;
+      line-height: 1.1;
+    }
+
     .description {
       margin: 15px 0 0;
       color: var(--muted);
@@ -469,7 +478,7 @@
                   <span class="category-tag">${escapeHtml(product.categoria)}</span>
                   <h2 class="product-name">${escapeHtml(product.nome)}</h2>
                 </div>
-                <div class="price">${firstPrice == null ? 'Sob consulta' : money.format(firstPrice)}</div>
+                <div class="price">${firstPrice == null ? 'Sob consulta' : '<span class="price-label">A partir de:</span>' + money.format(firstPrice)}</div>
               </div>
               <p class="description">${escapeHtml(product.descricao)}</p>
               <dl class="specs">${specs || '<div class="spec"><dt>Referência</dt><dd>' + escapeHtml(product.produtoCodigoBase) + '</dd></div>'}</dl>
