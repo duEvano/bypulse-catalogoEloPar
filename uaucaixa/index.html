@@ -450,7 +450,17 @@
   <script src="/uaucaixa/produtos-xbz.js?v=20260811-1709"></script>
   <script>
     (() => {
-      const products = Array.isArray(window.CATALOGO_PRODUTOS) ? window.CATALOGO_PRODUTOS : [];
+      const sourceProducts = Array.isArray(window.CATALOGO_PRODUTOS) ? window.CATALOGO_PRODUTOS : [];
+      const hasPlaquinha = product => /plaquinha/i.test(product.nome || '');
+      const isYellowVariant = variant => /amarelo|(?:^|[-/])AMA(?:[-/\s.]|$)/i
+        .test([variant.cor, variant.codigo, variant.imagemUrl, variant.imagemArquivo].filter(Boolean).join(' '));
+      const products = sourceProducts
+        .filter(product => !hasPlaquinha(product) && !/^XBZ Brindes$/i.test(product.nome || ''))
+        .map(product => ({
+          ...product,
+          variacoes: (product.variacoes || []).filter(variant => !isYellowVariant(variant))
+        }))
+        .filter(product => product.variacoes.length > 0);
       const list = document.querySelector('#product-list');
       const filter = document.querySelector('#category-filter');
       const count = document.querySelector('#visible-count');
